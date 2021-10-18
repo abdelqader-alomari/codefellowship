@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class ApplicationUser implements UserDetails {
@@ -20,7 +21,9 @@ public class ApplicationUser implements UserDetails {
     private String lastName;
     private String dataOfBirth;
     private String bio;
-    private String imageUrl;
+
+    @OneToMany(mappedBy = "user")
+    private List<Posts> posts;
 
     public ApplicationUser(String username, String password, String firstName, String lastName, String dataOfBirth,
             String bio) {
@@ -90,4 +93,13 @@ public class ApplicationUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public List<Posts> getPosts() {
+        return posts;
+    }
+
+    public void setPostList(List<Posts> postList) {
+        this.posts = postList;
+    }
+
 }
