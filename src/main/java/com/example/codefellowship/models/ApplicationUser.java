@@ -4,9 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 public class ApplicationUser implements UserDetails {
@@ -20,37 +18,22 @@ public class ApplicationUser implements UserDetails {
 
     private String firstName;
     private String lastName;
-    private LocalDate dataOfBirth;
+    private String dataOfBirth;
     private String bio;
     private String imageUrl;
 
-    @OneToMany(mappedBy = "user")
-    private List<Posts> posts;
-
-    public List<Posts> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Posts> posts) {
-        this.posts = posts;
-    }
-
-    public ApplicationUser(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-    public ApplicationUser() {
-
-    }
-
-    public ApplicationUser(String username, String password, String firstName, String lastName, LocalDate dataOfBirth, String bio) {
+    public ApplicationUser(String username, String password, String firstName, String lastName, String dataOfBirth,
+            String bio) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dataOfBirth = dataOfBirth;
         this.bio = bio;
+    }
+
+    public ApplicationUser() {
+
     }
 
     public Long getId() {
@@ -65,7 +48,7 @@ public class ApplicationUser implements UserDetails {
         return lastName;
     }
 
-    public LocalDate getDataOfBirth() {
+    public String getDataOfBirth() {
         return dataOfBirth;
     }
 
@@ -77,7 +60,6 @@ public class ApplicationUser implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
-
 
     @Override
     public String getPassword() {
