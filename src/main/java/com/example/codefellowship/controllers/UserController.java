@@ -1,7 +1,7 @@
 package com.example.codefellowship.controllers;
 
 import com.example.codefellowship.models.ApplicationUser;
-\import com.example.codefellowship.repositories.UserRepository;
+import com.example.codefellowship.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
