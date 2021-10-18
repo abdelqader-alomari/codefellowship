@@ -19,6 +19,9 @@ public class Posts {
     @ManyToOne
     private ApplicationUser user;
 
+    public Posts(String body2, ApplicationUser currentUser) {
+    }
+
     public void Post() {
     }
 
