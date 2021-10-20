@@ -5,6 +5,7 @@ import com.example.codefellowship.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -21,20 +22,42 @@ public class UserController {
         return "signup";
     }
 
+    @GetMapping("/profile")
+    public String getProfilePage() {
+        return "profile";
+    }
+
     @GetMapping("/login")
     public String getLoginPage() {
         return "login";
     }
 
+    @GetMapping("/logout")
+    public String getLogoutPage() {
+        return "home";
+    }
+
     @PostMapping("/signup")
-    public RedirectView signUp(@RequestParam(value = "username") String username,
-            @RequestParam(value = "password") String password, @RequestParam(value = "firstName") String firstName,
-            @RequestParam(value = "lastName") String lastName, @RequestParam(value = "dateOfBirth") String dateOfBirth,
-            @RequestParam(value = "bio") String bio) {
+    public RedirectView signUp(String username, String password, String firstName, String lastName, String dateOfBirth,
+            String bio) {
         ApplicationUser newUser = new ApplicationUser(username, encoder.encode(password), firstName, lastName,
                 dateOfBirth, bio);
-        // newUser.setPosts(PostsRepository.findById(posts).orElseThrow());
         userRepository.save(newUser);
         return new RedirectView("/login");
     }
+
+    @GetMapping("/users/{id}")
+    public String profile(@PathVariable long id, Model model) {
+        ApplicationUser user = userRepository.findById(id).get();
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("userID", user.getId());
+        model.addAttribute("user", user);
+        model.addAttribute("firstName", user.getFirstName());
+        model.addAttribute("lastName", user.getLastName());
+        model.addAttribute("dateOfBirth", user.getDataOfBirth());
+        model.addAttribute("userBio", user.getBio());
+
+        return "profile";
+    }
+
 }

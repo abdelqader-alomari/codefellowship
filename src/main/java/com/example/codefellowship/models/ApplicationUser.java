@@ -20,7 +20,10 @@ public class ApplicationUser implements UserDetails {
     private String lastName;
     private String dataOfBirth;
     private String bio;
-    private String imageUrl;
+
+    public ApplicationUser() {
+
+    }
 
     public ApplicationUser(String username, String password, String firstName, String lastName, String dataOfBirth,
             String bio) {
@@ -30,10 +33,6 @@ public class ApplicationUser implements UserDetails {
         this.lastName = lastName;
         this.dataOfBirth = dataOfBirth;
         this.bio = bio;
-    }
-
-    public ApplicationUser() {
-
     }
 
     public Long getId() {
@@ -63,12 +62,12 @@ public class ApplicationUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.username;
     }
 
     @Override
