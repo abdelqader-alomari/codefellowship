@@ -1,5 +1,8 @@
 package com.example.codefellowship.controllers;
 
+import java.security.Principal;
+import java.util.List;
+
 import com.example.codefellowship.models.ApplicationUser;
 import com.example.codefellowship.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +23,6 @@ public class UserController {
     @GetMapping("/signup")
     public String getSignUpPage() {
         return "signup";
-    }
-
-    @GetMapping("/profile")
-    public String getProfilePage() {
-        return "profile";
     }
 
     @GetMapping("/login")
@@ -60,4 +58,17 @@ public class UserController {
         return "profile";
     }
 
+    @GetMapping("/profile")
+    public String myprofile(Model model, Principal principal) {
+        ApplicationUser user = userRepository.findByUsername(principal.getName());
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("userID", user.getId());
+        model.addAttribute("user", user);
+        model.addAttribute("firstName", user.getFirstName());
+        model.addAttribute("lastName", user.getLastName());
+        model.addAttribute("dateOfBirth", user.getDataOfBirth());
+        model.addAttribute("userBio", user.getBio());
+
+        return "profile";
+    }
 }

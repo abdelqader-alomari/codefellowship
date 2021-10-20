@@ -10,16 +10,16 @@ import java.util.Collection;
 public class ApplicationUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @Column(unique = true)
     private String username;
     private String password;
 
-    private String firstName;
-    private String lastName;
-    private String dataOfBirth;
-    private String bio;
+    public String firstName;
+    public String lastName;
+    public String dataOfBirth;
+    public String bio;
 
     public ApplicationUser() {
 
