@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.security.Principal;
+
 import com.example.codefellowship.models.ApplicationUser;
 import com.example.codefellowship.models.Posts;
 import com.example.codefellowship.repositories.PostsRepository;
 import com.example.codefellowship.repositories.UserRepository;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 @Controller
 public class PostsController {
@@ -35,13 +38,14 @@ public class PostsController {
         return new RedirectView("/profile");
     }
 
-    @GetMapping("/addpost/{id}")
-    public String profile(@PathVariable long id, Model model) {
-        Posts user = postsRepository.findById(id).get();
-        model.addAttribute("body", user.getBody());
-        model.addAttribute("created_at", user.getCreatedAt());
-        model.addAttribute("posts", user);
-        return "profile";
-    }
+    @PostMapping("/addpost")
+    public RedirectView addNewPost(@RequestParam String body, Principal principal) {
 
+        ApplicationUser user = (ApplicationUser) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
+        Posts post = new Posts(body, user);
+
+        postsRepository.save(post);
+
+        return new RedirectView("/profile");
+    }
 }

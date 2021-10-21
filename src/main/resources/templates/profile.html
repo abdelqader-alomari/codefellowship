@@ -8,7 +8,7 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
 </head>
 
-<body style="background-color: #6b7aa1; height: 100vh">
+<body style="background-color: #b3d3f0; height: 100vh">
     <header>
         <div th:replace="navbar :: navbar"></div>
     </header>
@@ -28,23 +28,27 @@
             </ul>
         </div>
         </div>
-        <form action="#" th:action="'/addpost/'+ ${user.id}" method="POST">
-            <fieldset style="text-align:center">
-                <legend>Add Post </legend>
-                <textarea id="body" name="body"></textarea><br>
-                <input type="date" id="createdAt" name="createdAt"><br><br>
-                <input type="submit" value="Submit">
-            </fieldset>
-        </form>
-        </div>
-        <div>   
-        <h2>Posts</h2>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Post Body: <span th:text="${getBody}"></span></li>
-            <li class="list-group-item">Created At: <span th:text="${created_at}"></span></li>
-        </ul>
-        </div>
+        <!-- <form action="#" th:action="'/addpost/'+ ${user.id}" method="POST"> -->
+        <section id="posts" style="margin-top: 15px">
 
+            <article style="border-bottom: 1px solid; width:80%" th:each="p : ${user.getPosts()}">
+                <h5 th:text="${user.username}"> </h5>
+               <p th:text="${p.getBody()}"> </p>
+                <p th:text="${p.getCreatedAt()}"> </p>
+            </article>
+            <form method="POST" action="/addpost" >
+                <fieldset>
+                    <legend>Add Post </legend>
+                    <textarea id="body" name="body"></textarea><br>
+                    <!-- <input type="date" id="createdAt" name="createdAt"><br><br> -->
+                    <input type="submit" value="Submit">
+                </fieldset>
+            </form>
+    
+        </section>
+
+        </div>
+        
     </main>
 </body>
 

@@ -1,6 +1,8 @@
 package com.example.codefellowship.controllers;
 
 import java.security.Principal;
+import java.util.List;
+
 import com.example.codefellowship.models.ApplicationUser;
 import com.example.codefellowship.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 @Controller
 public class UserController {
@@ -30,7 +33,7 @@ public class UserController {
 
     @GetMapping("/logout")
     public String getLogoutPage() {
-        return "home";
+        return "index";
     }
 
     @PostMapping("/signup")
@@ -43,7 +46,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public String profile(@PathVariable long id, Model model) {
+    public String profile(@PathVariable long id, Model model, Principal principal) {
         ApplicationUser user = userRepository.findById(id).get();
         model.addAttribute("username", user.getUsername());
         model.addAttribute("userID", user.getId());
@@ -52,7 +55,7 @@ public class UserController {
         model.addAttribute("lastName", user.getLastName());
         model.addAttribute("dateOfBirth", user.getDataOfBirth());
         model.addAttribute("userBio", user.getBio());
-
+        model.addAttribute("logged", ((UsernamePasswordAuthenticationToken) principal).getPrincipal());
         return "profile";
     }
 
@@ -69,4 +72,12 @@ public class UserController {
 
         return "profile";
     }
+
+    @GetMapping("/users")
+    public String getUsers(Model model) {
+        List<ApplicationUser> users = userRepository.findAll();
+        model.addAttribute("allusers", users);
+        return "users";
+    }
+
 }
