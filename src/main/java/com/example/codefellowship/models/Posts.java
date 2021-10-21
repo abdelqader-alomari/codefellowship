@@ -1,61 +1,43 @@
 package com.example.codefellowship.models;
 
-import java.time.LocalDateTime;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @Entity
 public class Posts {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String body;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    long id;
+    String body;
+    String createdAt;
     @ManyToOne
-    private ApplicationUser user;
+    ApplicationUser users;
 
-    public Posts(String body2, ApplicationUser currentUser) {
+    public ApplicationUser getOwner() {
+        return users;
     }
 
-    public void Post() {
+    public Posts() {
     }
 
-    public void Post(String body, ApplicationUser user) {
+    public long getId() {
+        return id;
+    }
+
+    public Posts(String body, ApplicationUser users) {
         this.body = body;
-        this.user = user;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+        this.createdAt = sdf.format(new Timestamp(System.currentTimeMillis()).getTime());
+        this.users = users;
     }
 
     public String getBody() {
         return body;
     }
 
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public LocalDateTime getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public ApplicationUser getUser() {
-        return user;
-    }
-
-    public void setUser(ApplicationUser user) {
-        this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "Post{" + "id=" + id + ", body='" + body + '\'' + ", created At=" + createdAt + ", user=" + user + '}';
     }
 }

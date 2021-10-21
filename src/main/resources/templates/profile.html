@@ -1,30 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8" />
-    <title>Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
 </head>
 
 <body style="background-color: #6b7aa1; height: 100vh">
     <header>
         <div th:replace="navbar :: navbar"></div>
-      </header>  
+    </header>
     <main style="display: grid; grid-template-columns: repeat(2, 50% 50%)">
         <div class="card" style="width: 18rem; margin: auto ; margin-top: 10px;">
             <img class="card-img-top" src="https://picsum.photos/200/300" alt="profile img" />
             <div class="card-body">
-                <h5 class="card-title"><span th:text="${firstName}"></span></h5>
-                <p class="card-text"><span th:text="${bio}"></p>
+                <h5 class="card-title"><span th:text="${firstName} + ' ' + ${lastName}"></span></h5>
             </div>
             <ul class="list-group list-group-flush">
+                <li class="list-group-item">username: <span th:text="${username}"></span></li>
                 <li class="list-group-item">First Name: <span th:text="${firstName}"></span></li>
-                    <li class="list-group-item">Last Name: <span th:text="${lastName}"></span></li>
-                    <li class="list-group-item">Date Of Birth: <span th:text="${dateOfBirth}"></span></li>
-                    </ul>
-            </div>
+                <li class="list-group-item">Last Name: <span th:text="${lastName}"></span></li>
+                <li class="list-group-item">ID: <span th:text="${userID}"></span></li>
+                <li class="list-group-item">Date Of Birth: <span th:text="${dateOfBirth}"></span></li>
+                <li class="list-group-item">Bio: <span th:text="${userBio}"></span></li>
+            </ul>
         </div>
+        </div>
+        <form action="#" th:action="'/addpost/'+ ${user.id}" method="POST">
+            <fieldset style="text-align:center">
+                <legend>Add Post </legend>
+                <textarea id="body" name="body"></textarea><br>
+                <input type="date" id="createdAt" name="createdAt"><br><br>
+                <input type="submit" value="Submit">
+            </fieldset>
+        </form>
+        </div>
+        <div>   
+        <h2>Posts</h2>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Post Body: <span th:text="${getBody}"></span></li>
+            <li class="list-group-item">Created At: <span th:text="${created_at}"></span></li>
+        </ul>
+        </div>
+
     </main>
 </body>
 

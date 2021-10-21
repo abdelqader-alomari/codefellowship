@@ -11,19 +11,31 @@ import java.util.List;
 public class ApplicationUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @Column(unique = true)
     private String username;
     private String password;
 
-    private String firstName;
-    private String lastName;
-    private String dataOfBirth;
-    private String bio;
+    public String firstName;
+    public String lastName;
+    public String dataOfBirth;
+    public String bio;
 
-    @OneToMany(mappedBy = "user")
-    private List<Posts> posts;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "users")
+    List<Posts> posts;
+
+    public List<Posts> getPosts() {
+        return this.posts;
+    }
+
+    public void setPost(List<Posts> posts) {
+        this.posts = posts;
+    }
+
+    public ApplicationUser() {
+
+    }
 
     public ApplicationUser(String username, String password, String firstName, String lastName, String dataOfBirth,
             String bio) {
@@ -33,10 +45,6 @@ public class ApplicationUser implements UserDetails {
         this.lastName = lastName;
         this.dataOfBirth = dataOfBirth;
         this.bio = bio;
-    }
-
-    public ApplicationUser() {
-
     }
 
     public Long getId() {
@@ -66,12 +74,12 @@ public class ApplicationUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.username;
     }
 
     @Override
@@ -93,13 +101,4 @@ public class ApplicationUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-    public List<Posts> getPosts() {
-        return posts;
-    }
-
-    public void setPostList(List<Posts> postList) {
-        this.posts = postList;
-    }
-
 }
