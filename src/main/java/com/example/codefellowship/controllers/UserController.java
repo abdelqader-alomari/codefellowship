@@ -83,20 +83,20 @@ public class UserController {
         return "users";
     }
 
-    @PostMapping("/addfollow")
+    @PostMapping("/follow")
     public RedirectView followUser(@AuthenticationPrincipal ApplicationUser user, @RequestParam Long id) {
-        ApplicationUser myApp = userRepository.findByUsername(user.getUsername());
-        ApplicationUser followUser = userRepository.findById(id).get();
-        myApp.getFollowers().add(followUser);
-        userRepository.save(myApp);
+        ApplicationUser feed = userRepository.findByUsername(user.getUsername());
+        ApplicationUser follow = userRepository.findById(id).get();
+        feed.getFollowers().add(follow);
+        userRepository.save(feed);
         return new RedirectView("/feed");
     }
 
     @GetMapping("/feed")
     public String getUsersInfo(@AuthenticationPrincipal ApplicationUser user, Model model) {
         model.addAttribute("username", user.getUsername());
-        ApplicationUser myApp = userRepository.findByUsername(user.getUsername());
-        List<ApplicationUser> myfollowers = myApp.getFollowers();
+        ApplicationUser feed = userRepository.findByUsername(user.getUsername());
+        List<ApplicationUser> myfollowers = feed.getFollowers();
         model.addAttribute("allfollowers", myfollowers);
         return "feed";
     }

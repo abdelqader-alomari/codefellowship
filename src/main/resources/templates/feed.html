@@ -43,12 +43,9 @@
               aria-pressed="true"
               >Profile</a
             ><br /><br />
-            <!-- <h5>Posts:</h5>
+            <h5>Posts:</h5>
             <ul>
-              <li
-                th:each="post:${follower.postUser}"
-                th:text="${post.body}"
-              ></li> -->
+              <li th:each="post:${follower.posts}" th:text="${post.body}"></li>
             </ul>
           </div>
         </div>

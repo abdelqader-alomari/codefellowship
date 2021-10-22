@@ -15,7 +15,7 @@ public class Posts {
     @ManyToOne
     ApplicationUser users;
 
-    public ApplicationUser getOwner() {
+    public ApplicationUser getUsers() {
         return users;
     }
 

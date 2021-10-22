@@ -36,8 +36,8 @@
         <li th:text="${user.firstName+ ' ' + user.lastName}"></li>
         <li th:text="${user.dateOfBirth}"></li>
         <li th:text="${user.bio}"></li>
-        <form method="post" th:action="@{'/addfollow?id='+${user.id}}">
-          <button class="btn btn-danger" type="submit">Follow</button>
+        <form method="post" th:action="@{'/follow?id='+${user.id}}">
+          <button class="btn btn-danger" th:if="${myfollowers.contains(user) != true and username != user.username}" type="submit">Follow</button>
         </form>
          <a th:href="@{http://localhost:8080/user/(id=${user.id})}"> <button type="submit">Visit Profile</button></a> 
         </form>
