@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 @Controller
 public class UserController {
@@ -45,15 +46,15 @@ public class UserController {
         return new RedirectView("/login");
     }
 
-    @GetMapping("/users/{id}")
-    public String profile(@PathVariable long id, Model model, Principal principal) {
+    @GetMapping("/user")
+    public String profile(@RequestParam long id, Model model, Principal principal) {
         ApplicationUser user = userRepository.findById(id).get();
         model.addAttribute("username", user.getUsername());
         model.addAttribute("userID", user.getId());
         model.addAttribute("user", user);
         model.addAttribute("firstName", user.getFirstName());
         model.addAttribute("lastName", user.getLastName());
-        model.addAttribute("dateOfBirth", user.getDataOfBirth());
+        model.addAttribute("dateOfBirth", user.getDateOfBirth());
         model.addAttribute("userBio", user.getBio());
         model.addAttribute("logged", ((UsernamePasswordAuthenticationToken) principal).getPrincipal());
         return "profile";
@@ -67,17 +68,37 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("firstName", user.getFirstName());
         model.addAttribute("lastName", user.getLastName());
-        model.addAttribute("dateOfBirth", user.getDataOfBirth());
+        model.addAttribute("dateOfBirth", user.getDateOfBirth());
         model.addAttribute("userBio", user.getBio());
 
-        return "profile";
+        return "myprofile";
     }
 
     @GetMapping("/users")
-    public String getUsers(Model model) {
+    public String getUsers(Model model, Principal principal) {
         List<ApplicationUser> users = userRepository.findAll();
         model.addAttribute("allusers", users);
+        ApplicationUser user = userRepository.findByUsername(principal.getName());
+        model.addAttribute("username", user.getUsername());
         return "users";
+    }
+
+    @PostMapping("/addfollow")
+    public RedirectView followUser(@AuthenticationPrincipal ApplicationUser user, @RequestParam Long id) {
+        ApplicationUser myApp = userRepository.findByUsername(user.getUsername());
+        ApplicationUser followUser = userRepository.findById(id).get();
+        myApp.getFollowers().add(followUser);
+        userRepository.save(myApp);
+        return new RedirectView("/feed");
+    }
+
+    @GetMapping("/feed")
+    public String getUsersInfo(@AuthenticationPrincipal ApplicationUser user, Model model) {
+        model.addAttribute("username", user.getUsername());
+        ApplicationUser myApp = userRepository.findByUsername(user.getUsername());
+        List<ApplicationUser> myfollowers = myApp.getFollowers();
+        model.addAttribute("allfollowers", myfollowers);
+        return "feed";
     }
 
 }

@@ -4,6 +4,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class ApplicationUser implements UserDetails {
 
     public String firstName;
     public String lastName;
-    public String dataOfBirth;
+    public String dateOfBirth;
     public String bio;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "users")
@@ -29,6 +31,12 @@ public class ApplicationUser implements UserDetails {
         return this.posts;
     }
 
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(name = "follower_follower", joinColumns = @JoinColumn(name = "from_id"), inverseJoinColumns = @JoinColumn(name = "to_id"))
+    List<ApplicationUser> followers = new ArrayList<>();
+    @ManyToMany(mappedBy = "followers")
+    List<ApplicationUser> following = new ArrayList<>();
+
     public void setPost(List<Posts> posts) {
         this.posts = posts;
     }
@@ -37,13 +45,13 @@ public class ApplicationUser implements UserDetails {
 
     }
 
-    public ApplicationUser(String username, String password, String firstName, String lastName, String dataOfBirth,
+    public ApplicationUser(String username, String password, String firstName, String lastName, String dateOfBirth,
             String bio) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.dataOfBirth = dataOfBirth;
+        this.dateOfBirth = dateOfBirth;
         this.bio = bio;
     }
 
@@ -59,8 +67,8 @@ public class ApplicationUser implements UserDetails {
         return lastName;
     }
 
-    public String getDataOfBirth() {
-        return dataOfBirth;
+    public String getDateOfBirth() {
+        return dateOfBirth;
     }
 
     public String getBio() {
@@ -80,6 +88,22 @@ public class ApplicationUser implements UserDetails {
     @Override
     public String getUsername() {
         return this.username;
+    }
+
+    public List<ApplicationUser> getFollowers() {
+        return this.followers;
+    }
+
+    public void setFollowers(List<ApplicationUser> followers) {
+        this.followers = followers;
+    }
+
+    public List<ApplicationUser> getFollowing() {
+        return this.following;
+    }
+
+    public void setFollowing(List<ApplicationUser> following) {
+        this.following = following;
     }
 
     @Override

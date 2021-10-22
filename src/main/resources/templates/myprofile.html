@@ -25,10 +25,7 @@
                 <li class="list-group-item">ID: <span th:text="${userID}"></span></li>
                 <li class="list-group-item">Date Of Birth: <span th:text="${dateOfBirth}"></span></li>
                 <li class="list-group-item">Bio: <span th:text="${userBio}"></span></li>
-                <form method="post" th:action="@{'/addfollow?id='+${user.id}}">
-                    <button class="btn btn-danger m-3" type="submit">Follow</button>
-                  </form>
-                      </ul>
+            </ul>
         </div>
         </div>
         <!-- <form action="#" th:action="'/addpost/'+ ${user.id}" method="POST"> -->
