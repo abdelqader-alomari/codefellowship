@@ -34,7 +34,7 @@ public class UserController {
 
     @GetMapping("/logout")
     public String getLogoutPage() {
-        return "index";
+        return "login";
     }
 
     @PostMapping("/signup")
@@ -100,5 +100,4 @@ public class UserController {
         model.addAttribute("allfollowers", myfollowers);
         return "feed";
     }
-
 }
