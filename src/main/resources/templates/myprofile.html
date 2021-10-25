@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+</head>
+
+<body style="background-color: #b3d3f0; height: 100vh">
+    <header>
+        <div th:replace="navbar :: navbar"></div>
+    </header>
+    <main style="display: grid; grid-template-columns: repeat(2, 50% 50%)">
+        <div class="card" style="width: 18rem; margin: auto ; margin-top: 10px;">
+            <img class="card-img-top" src="https://picsum.photos/200/300" alt="profile img" />
+            <div class="card-body">
+                <h5 class="card-title"><span th:text="${firstName} + ' ' + ${lastName}"></span></h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">UserName: <span th:text="${username}"></span></li>
+                <li class="list-group-item">First Name: <span th:text="${firstName}"></span></li>
+                <li class="list-group-item">Last Name: <span th:text="${lastName}"></span></li>
+                <li class="list-group-item">ID: <span th:text="${userID}"></span></li>
+                <li class="list-group-item">Date Of Birth: <span th:text="${dateOfBirth}"></span></li>
+                <li class="list-group-item">Bio: <span th:text="${userBio}"></span></li>
+            </ul>
+        </div>
+        </div>
+        <!-- <form action="#" th:action="'/addpost/'+ ${user.id}" method="POST"> -->
+        <section id="posts" style="margin-top: 15px">
+
+            <article style="border-bottom: 1px solid; width:80%" th:each="p : ${user.getPosts()}">
+                <h5 th:text="${user.username}"> </h5>
+               <p th:text="${p.getBody()}"> </p>
+                <p th:text="${p.getCreatedAt()}"> </p>
+            </article>
+            <form method="POST" action="/addpost" >
+                <fieldset>
+                    <legend>Add Post </legend>
+                    <textarea id="body" name="body"></textarea><br>
+                    <!-- <input type="date" id="createdAt" name="createdAt"><br><br> -->
+                    <input type="submit" value="Submit">
+                </fieldset>
+            </form>
+    
+        </section>
+
+        </div>
+        
+    </main>
+</body>
+
+</html>
