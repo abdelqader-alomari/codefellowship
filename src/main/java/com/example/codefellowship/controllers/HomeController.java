@@ -17,9 +17,14 @@ public class HomeController {
     UserRepository userRepository;
 
     @GetMapping
+    public String homePage() {
+        return "index";
+    }
+
+    @GetMapping("/home")
     public String homePage(Model model, Principal principal) {
         ApplicationUser user = userRepository.findByUsername(principal.getName());
         model.addAttribute("username", user.getUsername());
-        return "index";
+        return "home";
     }
 }

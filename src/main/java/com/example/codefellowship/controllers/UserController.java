@@ -2,6 +2,7 @@ package com.example.codefellowship.controllers;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 import com.example.codefellowship.models.ApplicationUser;
 import com.example.codefellowship.repositories.UserRepository;
@@ -96,7 +97,7 @@ public class UserController {
     public String getUsersInfo(@AuthenticationPrincipal ApplicationUser user, Model model) {
         model.addAttribute("username", user.getUsername());
         ApplicationUser feed = userRepository.findByUsername(user.getUsername());
-        List<ApplicationUser> myfollowers = feed.getFollowers();
+        Set<ApplicationUser> myfollowers = feed.getFollowers();
         model.addAttribute("allfollowers", myfollowers);
         return "feed";
     }

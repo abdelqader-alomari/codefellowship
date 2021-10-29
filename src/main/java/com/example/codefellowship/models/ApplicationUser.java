@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class ApplicationUser implements UserDetails {
@@ -33,9 +34,9 @@ public class ApplicationUser implements UserDetails {
 
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(name = "follower_follower", joinColumns = @JoinColumn(name = "from_id"), inverseJoinColumns = @JoinColumn(name = "to_id"))
-    List<ApplicationUser> followers = new ArrayList<>();
+    Set<ApplicationUser> followers;
     @ManyToMany(mappedBy = "followers")
-    List<ApplicationUser> following = new ArrayList<>();
+    Set<ApplicationUser> following;
 
     public void setPost(List<Posts> posts) {
         this.posts = posts;
@@ -90,19 +91,19 @@ public class ApplicationUser implements UserDetails {
         return this.username;
     }
 
-    public List<ApplicationUser> getFollowers() {
+    public Set<ApplicationUser> getFollowers() {
         return this.followers;
     }
 
-    public void setFollowers(List<ApplicationUser> followers) {
+    public void setFollowers(Set<ApplicationUser> followers) {
         this.followers = followers;
     }
 
-    public List<ApplicationUser> getFollowing() {
+    public Set<ApplicationUser> getFollowing() {
         return this.following;
     }
 
-    public void setFollowing(List<ApplicationUser> following) {
+    public void setFollowing(Set<ApplicationUser> following) {
         this.following = following;
     }
 
